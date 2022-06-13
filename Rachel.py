@@ -80,7 +80,7 @@ async def Climb(ctx,*,text):
     textList = text.split(", ")
     img = Image.open('/home/pi/Rachel Bot/image/climb.png')
     draw = ImageDraw.Draw(img)
-    
+
     # specified font size
     font = ImageFont.truetype('/home/pi/Rachel Bot/fonts/arial.ttf', 100)
     fontShadow = ImageFont.truetype('/home/pi/Rachel Bot/fonts/arial.ttf', 102)
@@ -92,10 +92,10 @@ async def Climb(ctx,*,text):
     bottomText = listNewlines(bottomList)
 
     if(len(topList) < 7 and len(bottomList) < 7):
-    
+
         topPosition=formatPosition(len(topList),'top')
         bottomPosition=formatPosition(len(bottomList),'bottom')
-        
+
         draw.text((600, topPosition),topText,(0,0,0),font=fontShadow)
         draw.text((100, bottomPosition),bottomText,(0,0,0),font=fontShadow)
 
@@ -103,7 +103,7 @@ async def Climb(ctx,*,text):
         draw.text((100, bottomPosition),bottomText,(255,255,0),font=font)
 
 
-        
+
         img.save('image/climbMeme.png')
         await ctx.send(file=discord.File('/home/pi/Rachel Bot/image/climbMeme.png'))
 
@@ -264,7 +264,7 @@ def listNewlines(list):
            text+=i+' '
            newLine=True
     return text
-    
+
 
 #Beer counter
 @client.command(aliases = ["Beer", "beers", "Beers", "BEERS", "BEER", "SESH", "sesh", "Sesh"])
@@ -453,4 +453,4 @@ async def dua(ctx):
     await ctx.send(response)
 
 #Must always be last line!
-client.run('ODI0MzMzNjY1NTI0OTA4MTAz.YFt2jQ.BIj4t3wVY71CLtXXl77Md9j2--Y')
+client.run('TOKENIDREMOVEDFORGITHUB')
