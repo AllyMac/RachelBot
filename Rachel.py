@@ -110,7 +110,7 @@ async def Climb(ctx,*,text):
     else:
         await ctx.send('Six words max')
 
-@client.command(aliases=["Kieran", "kieranWork", "KieranWork", "kieranwork", "Kieranwork"])
+@client.command(aliases = ["Kieran"])
 async def KieranWork(ctx):
     await ctx.send("Kieran's usual work schedule can be found below")
     await ctx.send("Sunday night, Monday night, Tuesday night")
