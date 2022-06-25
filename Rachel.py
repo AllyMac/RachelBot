@@ -1,7 +1,11 @@
 import discord
+from git import Repo
 from discord.ext import commands,tasks
 import time
 import datetime
+import xml.etree.ElementTree as ET
+import os
+import sys
 import random
 from datetime import date
 import calendar
@@ -10,9 +14,15 @@ from itertools import cycle
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
+import shutil
 
 
 client = commands.Bot(command_prefix = ["-","Pls ","pls ", "PLS "], help_command=None)
+
+tree = ET.parse('/home/pi/Rachel Bot/RachelData.xml')
+root = tree.getroot()
+discordToken =root[0].text
+
 
 #-----------------EVENTS-----------------
 
@@ -73,7 +83,36 @@ async def change_status():
 
 
 
-#-----------------COMMANDS-----------------
+#-----------------COMMANDS-----------------    
+@client.command(aliases = ['update','UPDATE'])
+async def Update(ctx):
+    tempFolder = '/home/pi/Rachel Bot/GithubTemp'
+    mainFolder = '/home/pi/Rachel Bot/Github'
+    await ctx.send("Updating from github...")
+    time.sleep(5)
+    Repo.clone_from('https://github.com/AllyMac/RachelBot/', tempFolder)
+    time.sleep(30)
+
+    #copy files from temp to 
+    for src_dir, dirs, files in os.walk(tempFolder):
+        dst_dir = src_dir.replace(tempFolder, mainFolder, 1)
+        if not os.path.exists(dst_dir):
+            os.makedirs(dst_dir)
+        for file_ in files:
+            src_file = os.path.join(src_dir, file_)
+            dst_file = os.path.join(dst_dir, file_)
+            if os.path.exists(dst_file):
+                # in case of the src and dst are the same file
+                if os.path.samefile(src_file, dst_file):
+                    continue
+                os.remove(dst_file)
+            shutil.move(src_file, dst_dir)
+
+        
+    shutil.rmtree(tempFolder)
+    await ctx.send("Restarting...")
+    os.execv(sys.executable, ['python'] + sys.argv)
+
 
 @client.command(aliases = ["climb", "theClimb", "TheClimb","theclimb"])
 async def Climb(ctx,*,text):
@@ -104,7 +143,7 @@ async def Climb(ctx,*,text):
 
 
 
-        img.save('image/climbMeme.png')
+        img.save('/home/pi/Rachel Bot/image/climbMeme.png')
         await ctx.send(file=discord.File('/home/pi/Rachel Bot/image/climbMeme.png'))
 
     else:
@@ -457,5 +496,5 @@ async def dua(ctx):
 
     await ctx.send(response)
 
-#Must always be last line!
-client.run('TOKENIDREMOVEDFORGITHUB')
+#Token stored locally in XML
+client.run(discordToken)
