@@ -83,7 +83,9 @@ async def change_status():
 
 
 
-#-----------------COMMANDS-----------------    
+#-----------------COMMANDS-----------------
+
+#self updates from github MAIN Branch only
 @client.command(aliases = ['update','UPDATE'])
 async def Update(ctx):
     tempFolder = '/home/pi/Rachel Bot/GithubTemp'
@@ -93,7 +95,7 @@ async def Update(ctx):
     Repo.clone_from('https://github.com/AllyMac/RachelBot/', tempFolder)
     time.sleep(30)
 
-    #copy files from temp to 
+    #copy files from temp to
     for src_dir, dirs, files in os.walk(tempFolder):
         dst_dir = src_dir.replace(tempFolder, mainFolder, 1)
         if not os.path.exists(dst_dir):
@@ -108,7 +110,7 @@ async def Update(ctx):
                 os.remove(dst_file)
             shutil.move(src_file, dst_dir)
 
-        
+
     shutil.rmtree(tempFolder)
     await ctx.send("Restarting...")
     os.execv(sys.executable, ['python'] + sys.argv)
@@ -152,7 +154,7 @@ async def Climb(ctx,*,text):
 @client.command(aliases = ["Kieran"])
 async def KieranWork(ctx):
     await ctx.send("Kieran's usual work schedule can be found below")
-    await ctx.send("Sunday night, Monday night, Tuesday night")
+    await ctx.send("Sunday night | Monday night | Tuesday night")
 
 @client.command(aliases = ["Friday","FRIDAY"])
 async def friday(ctx):
